@@ -15,10 +15,10 @@ public class JsonUtils {
 
         JSONObject name;
         String mainName = null;
-        List<String> alsoKnownAs = null;
         String placeOfOrigin = null;
         String description = null;
         String image = null;
+        List<String> alsoKnownAs = null;
         List<String> ingredients = null;
 
         try {
@@ -51,14 +51,3 @@ public class JsonUtils {
         return new Sandwich(mainName, alsoKnownAs, placeOfOrigin, description, image, ingredients);
     }
 }
-//        JSONObject sandwichJson = new JSONObject(json);
-//        return new Sandwich(
-//                sandwichJson.getString("mainName"),
-//                (List<String>) sandwichJson.getJSONArray("alsoKnownAs"),
-//                sandwichJson.getString("placeOfOrigin"),
-//                sandwichJson.getString("description"),
-//                sandwichJson.getString("image"),
-//                (List<String>) sandwichJson.getJSONArray("ingredients")
-//        );
-
-

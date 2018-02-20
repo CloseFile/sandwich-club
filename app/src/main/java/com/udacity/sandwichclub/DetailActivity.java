@@ -3,6 +3,7 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,14 +12,13 @@ import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
 
-import org.json.JSONException;
 
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
 
-    private TextView placeOfOrigin, alsoKnownAs, ingredients, description;
+    private TextView placeOfOrigin,placeOfOriginTitle, alsoKnownAs,alsoKnownAsTitle, ingredients,ingredientsTitle, description;
     private ImageView image;
 
     @Override
@@ -27,8 +27,11 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         placeOfOrigin = findViewById(R.id.origin_tv);
+        placeOfOriginTitle=findViewById(R.id.origin_title);
         alsoKnownAs = findViewById(R.id.also_known_tv);
+        alsoKnownAsTitle=findViewById(R.id.also_known_title);
         ingredients = findViewById(R.id.ingredients_tv);
+        ingredientsTitle=findViewById(R.id.ingredients_title);
         description = findViewById(R.id.description_tv);
         image = findViewById(R.id.image_iv);
 
@@ -47,11 +50,6 @@ public class DetailActivity extends AppCompatActivity {
         String[] sandwiches = getResources().getStringArray(R.array.sandwich_details);
         String json = sandwiches[position];
         Sandwich sandwich = JsonUtils.parseSandwichJson(json);
-        if (sandwich == null) {
-            // Sandwich data unavailable
-            closeOnError();
-            return;
-        }
 
         populateUI(sandwich);
 
@@ -68,7 +66,9 @@ public class DetailActivity extends AppCompatActivity {
                 .load(sandwich.getImage())
                 .into(image);
         if (sandwich.getPlaceOfOrigin().equals("")) {
-            placeOfOrigin.setText(getString(R.string.no_data));
+            placeOfOrigin.setVisibility(View.GONE);
+            placeOfOriginTitle.setVisibility(View.GONE);
+
         } else {
             placeOfOrigin.setText(sandwich.getPlaceOfOrigin());
         }
@@ -83,7 +83,8 @@ public class DetailActivity extends AppCompatActivity {
                     alsoKnownAs.append(".");
             }
         } else {
-            alsoKnownAs.setText(getString(R.string.no_data));
+            alsoKnownAs.setVisibility(View.GONE);
+            alsoKnownAsTitle.setVisibility(View.GONE);
         }
 
         if (sandwich.getIngredients().size() != 0) {
@@ -96,7 +97,8 @@ public class DetailActivity extends AppCompatActivity {
                     ingredients.append(".");
             }
         } else {
-            ingredients.setText(R.string.no_data);
+            ingredients.setVisibility(View.GONE);
+            ingredientsTitle.setVisibility(View.GONE);
         }
 
         description.setText(sandwich.getDescription());
